@@ -1,0 +1,79 @@
+package com.voxelcraft.game;
+
+import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
+public class VoxelCraft extends ApplicationAdapter {
+    private ShapeRenderer shapeRenderer;
+
+    @Override
+    public void create() {
+        shapeRenderer = new ShapeRenderer();
+    }
+
+    @Override
+    public void render() {
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+
+        for (int x = 0; x < 10; x++) {
+            for (int y = 0; y < 10; y++) {
+                shapeRenderer.setColor(0.4f, 0.8f, 0.4f, 1);
+                shapeRenderer.rect(x * 32, y * 32, 30, 30); // simple "grass blocks"
+            }
+        }
+
+        shapeRenderer.end();
+    }
+
+    @Override
+    public void dispose() {
+        shapeRenderer.dispose();
+    }
+}
+buildscript {
+    repositories {
+        mavenCentral()
+        google()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.0.0'
+    }
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+        google()
+    }
+}
+include 'core', 'android'
+# VoxelCraft
+
+A basic Minecraft-style voxel sandbox written in Java using LibGDX, designed for Android and desktop.
+
+## Features
+- 2D block rendering (starter)
+- Cross-platform support
+- Future: 3D voxel rendering, world generation, block breaking/placing
+
+## Build Instructions
+
+1. Install Java 11+
+2. Install Android Studio
+3. Clone repo
+4. Run from Android module or desktop launcher
+
+## License
+MIT — you may use and modify freely (no Mojang code used)
+git init
+git remote add origin https://github.com/yourusername/VoxelCraft.git
+git add .
+git commit -m "Initial commit - Minecraft-like engine for mobile"
+git push -u origin main
+
+
+
+
