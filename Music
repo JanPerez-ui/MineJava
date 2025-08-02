@@ -1,0 +1,29 @@
+use_bpm 40  # slow, relaxed tempo
+use_synth :piano
+
+define :ambient_chords do
+  play_chord [:c4, :e4, :g4], release: 6
+  sleep 6
+  play_chord [:a3, :c4, :e4], release: 6
+  sleep 6
+  play_chord [:f3, :a3, :c4], release: 6
+  sleep 6
+  play_chord [:g3, :b3, :d4], release: 6
+  sleep 6
+end
+
+define :echo_melody do
+  use_synth :pretty_bell
+  play_pattern_timed [:e5, :d5, :c5, :g4], [1.5, 1.5, 2, 3], release: 2
+end
+
+live_loop :background_chords do
+  ambient_chords
+end
+
+live_loop :floating_melody, delay: 8 do
+  sync :background_chords
+  echo_melody
+  sleep 4
+end
+
