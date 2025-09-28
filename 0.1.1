@@ -1,0 +1,62 @@
+using UnityEngine;
+
+public class MiniMinecraft : MonoBehaviour
+{
+    public GameObject blockPrefab;
+    public float placeDistance = 5f;
+    public float moveSpeed = 5f;
+    public float jumpForce = 5f;
+
+    private Rigidbody rb;
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
+    void Update()
+    {
+        HandleMovement();
+        HandleBlockPlacement();
+        HandleBlockDestruction();
+    }
+
+    void HandleMovement()
+    {
+        float moveX = Input.GetAxis("Horizontal") * moveSpeed;
+        float moveZ = Input.GetAxis("Vertical") * moveSpeed;
+        Vector3 move = transform.right * moveX + transform.forward * moveZ;
+        rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
+    }
+
+    void HandleBlockPlacement()
+    {
+        if (Input.GetMouseButtonDown(0)) // Left click
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit, placeDistance))
+            {
+                Vector3 placePos = hit.point + hit.normal * 0.5f;
+                placePos = new Vector3(Mathf.Round(placePos.x), Mathf.Round(placePos.y), Mathf.Round(placePos.z));
+                Instantiate(blockPrefab, placePos, Quaternion.identity);
+            }
+        }
+    }
+
+    void HandleBlockDestruction()
+    {
+        if (Input.GetMouseButtonDown(1)) // Right click
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit, placeDistance))
+            {
+                Destroy(hit.collider.gameObject);
+            }
+        }
+    }
+}
